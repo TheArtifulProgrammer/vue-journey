@@ -3,6 +3,7 @@ import { ref } from "vue";
 
 const name = ref("John Smith");
 const status = ref("active");
+const age = ref(24);
 const tasks = ref([
   { id: 1, name: "Mbudzi" },
   { id: 2, name: "Cow" },
