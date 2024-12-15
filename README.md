@@ -63,7 +63,7 @@ export default {
 
 ```vue
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, reactive, computed, watch, onMounted } from "vue";
 
 const name = ref("John Smith");
 const status = ref("active");
@@ -94,6 +94,12 @@ const deleteTask = (index) => {
   tasks.value.splice(index, 1);
 };
 
+const totalTasks = computed(() => tasks.value.length);
+
+watch(status, (newValue, oldValue) => {
+  console.log(`Status changed from ${oldValue} to ${newValue}`);
+});
+
 onMounted(async () => {
   try {
     const response = await fetch("https://jsonplaceholder.typicode.com/todos");
@@ -115,6 +121,7 @@ onMounted(async () => {
   <p v-else-if="status === 'pending'">User is pending</p>
   <p v-else>User is inactive</p>
   <p>Age: {{ age }}</p>
+  <p>Total Tasks: {{ totalTasks }}</p>
 
   <form @submit.prevent="addTask">
     <label for="newTask">Add a task:</label>
@@ -147,17 +154,29 @@ onMounted(async () => {
 ### Composition API
 
 - **`ref`**: Creates a reactive reference.
+- **`reactive`**: Provides a way to create a reactive object.
+- **`computed`**: Derives computed values based on reactive state.
+- **`watch`**: Reacts to changes in specific data properties.
 - **`onMounted`**: Lifecycle hook for when the component is mounted.
-- **Reactive Methods**:
-  - Adding a new task with `addTask()`.
-  - Deleting a task with `deleteTask()`.
-  - Toggling the status with `toggle()`.
-- **Fetching Data**:
-  - Uses `fetch` API within `onMounted` to populate tasks dynamically.
+
+### Reactive Methods
+
+- Adding a new task with `addTask()`.
+- Deleting a task with `deleteTask()`.
+- Toggling the status with `toggle()`.
+
+### Fetching Data
+
+- Uses `fetch` API within `onMounted` to populate tasks dynamically.
 
 ### Additional Notes
 
 - Use **`v-model`** for two-way data binding in forms.
 - **Event Binding**: Simplified event binding syntax with `@` (e.g., `@click`, `@submit.prevent`).
 
----
+### Advanced Features
+
+- **Computed Properties**: Dynamically calculate values (e.g., `totalTasks`).
+- **Watchers**: Monitor reactive data and perform side effects (e.g., logging changes to `status`).
+
+
